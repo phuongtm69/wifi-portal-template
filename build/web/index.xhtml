@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>PATVN | WIFI PORTAL</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <a href="css/bootstrap.css.map"></a>
+        <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+        <script>
+                    var like = function () {
+                    console.log('LIKED');
+                            document.getElementById('btnEnter').style.display = 'block';
+                    };
+                    var unlike = function () {
+                    console.log('UNLIKED');
+                            document.getElementById('btnEnter').style.display = 'none';
+                    };
+                    var unloadImg = function () {
+                    document.getElementById('loading').style.display = 'none';
+                    };
+                    function regsiterOnLoad() {
+                    FB.Event.subscribe('edge.create', like);
+                            FB.Event.subscribe('edge.remove', unlike);
+                            FB.Event.subscribe('xfbml.render', unloadImg);
+                            $('#btnShare').click(function () {
+                    FB.ui(
+                    {
+                    method: 'share',
+                            href: 'https://www.facebook.com/patvietnam',
+                    },
+                            function (response) {
+                            if (response &amp;&amp; !response.error_code) {
+                            document.getElementById('btnEnter').style.display = 'block';
+                            } else {
+                            console.log('Cancel share');
+                            }
+                            }
+                    );
+                    });
+                    }
+        </script>
+    </h:head>
+    <h:body style="background:#3C4C55; font-family: 'Oxygen', sans-serif;" onload="regsiterOnLoad();">
+        <!--fb-init-->
+        <script>
+                    window.fbAsyncInit = function () {
+                    FB.init({
+                    appId: '709580122494400',
+                            xfbml: true,
+                            version: 'v2.1'
+                    });
+                    };
+                    (function (d, s, id) {
+
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) {
+                    return;
+                    }
+                    js = d.createElement(s);
+                            js.id = id;
+                            js.src = "//connect.facebook.net/en_US/sdk.js";
+                            fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <!--end-fb-init-->
+        <div class="main">        
+            <div>
+                <img alt="Brand" src="images/logo.jpg"/>
+            </div>
+            <br/>
+            
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+                Sử dụng 1 trong 3 cách dưới đây để truy cập internet
+            </div>
+            <div class="social-icons">
+                
+                <div>
+                    <ul class='facebook'>
+                        <i class="fb"> </i>
+                        <li>Kết nối với Facebook</li>
+                        
+                        <div class='clear'> </div>
+                    </ul>
+                    <div class="alert alert-info" role="alert">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                        Bấm like hoặc share để truy cập.
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div id="loading">Loading...</div>
+                            <div class="fb-like-box" data-href="https://www.facebook.com/patvietnam?pnref=story" data-colorscheme="light" data-show-faces="false" data-header="true" data-stream="false" data-show-border="true"></div>
+                            <input id='btnShare' type='button' value='Share' class='btn btn-info'/>
+                            <form name="login" method="post" action="http://192.168.11.1:5280/">
+                                <div>
+                                    <input type="hidden" name="accept_terms" value="yes" />   
+                                    <input type="hidden" name="redirect" value="https://facebook.com"/>
+                                    <input type="hidden" name="mode_login"/>
+                                    <br/>
+                                    <center><input type="submit" value="Continue" style="display: none;" class="btn btn-success" id="btnEnter"/></center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>	
+                
+                <div class="clear"> </div>	
+            </div>
+            
+            <h2>Đăng ký với email</h2>
+            <div class="alert alert-info" role="alert">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                        Đăng ký với địa chỉ email của bạn để truy cập.
+            </div>
+            <h:form id="formSubscription">
+                <div class="lable-2">
+                    <h:inputText id="executeEmail" class="text" value="#{indexManagedBean.email}" p:placeholder="Nhập địa chỉ email"/>
+                </div>
+                <div class='clear'/>
+                
+                        <h:commandButton value="Đăng ký">
+                            <f:ajax execute="executeEmail" render="outputSubscription"/>
+                        </h:commandButton>
+                           
+            <div class="clear"> </div>
+            <div style="margin-top: 40px;">
+                <h:outputText id="outputSubscription" value="#{indexManagedBean.access}" escape="false" />
+            </div>
+            </h:form>
+            <div class="clear"/>
+            <h2>Làm khảo sát</h2>
+            <div class="alert alert-info" role="alert">
+                        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                        Hoàn thành khảo sát bằng cách trả lời các câu hỏi.
+            </div>
+            <h:form id="formSurvey">
+                <div class="lable-2">
+                    <h:inputText id="executeFName"  value="#{indexManagedBean.firstName}" p:placeholder="Tên bạn là gì?"/>
+                                    <br/>
+                                    <h:inputText id="executeAge"  value="#{indexManagedBean.age}" p:placeholder="Bạn bao nhiêu tuổi?"/>
+                                    <br/>
+                                    <h:selectOneMenu id="executeRegion" class="form-control" value="#{indexManagedBean.region}">
+                                        <f:selectItem itemValue="Question" itemLabel="Bạn đến từ đâu?" />
+                                        <f:selectItem itemValue="Europe" itemLabel="Châu Âu" />
+                                        <f:selectItem itemValue="Asia" itemLabel="Châu Á" />
+                                        <f:selectItem itemValue="North America" itemLabel="Bắc Mỹ" />
+                                        <f:selectItem itemValue="South America" itemLabel="Nam Mỹ" />
+                                    </h:selectOneMenu>
+                                    <br/>
+                                    <h:inputText id="executeEmails"  value="#{indexManagedBean.emailSurvey}" p:placeholder="Nhập địa chỉ email"/>
+                </div>
+                <div class='clear'/>
+                
+                        <h:commandButton value="Hoàn tất">
+                                        <f:ajax execute="executeFName executeRegion executeAge executeEmails" render="outputSurvey"/>
+                        </h:commandButton>
+                            
+            <div class="clear"> </div>
+            <div style="margin-top: 40px;">
+                <h:outputText id="outputSurvey" value="#{indexManagedBean.accessByCompleteSurvey}" escape="false" />
+            </div>
+            </h:form>
+
+        </div>
+                <div class="clear"/>
+        <div class="copy-right">
+            <p>Copyright <a href="#">PATVN</a></p> 
+        </div>
+
+    </h:body>
+</html>
+
